@@ -2,28 +2,80 @@
 <html>
 	<head>
 		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
 		<link rel="stylesheet" type="text/css" href="css/main.css">
 	</head>
 	
 	<body>
 		<menu id="toolbar">
-			<li id="write-post">Write post</li>
-			<li id="timeline">Timeline</li>
-			<li id="archive">Archive</li>
-			<li id="settings">Settings</li>
+			<li id="write-post"><img src="img/write-post.png"></li>
+			<li id="timeline"><img src="img/timeline.png"></li>
+			<li id="archive"><img src="img/archive.png"></li>
+			<li id="settings"><img src="img/settings.png"></li>
 		</menu>
 		
 		<div id="content">
-			<div id="post-editor">
+			<div class="content-item" id="post-editor">
+				<div id="post-editor-properties">
+					<span>Date: </span><input type="datetime-local" id="post-editor-date">
+					<span>Favorite: </span><input type="checkbox" id="post-editor-favorite">
+					<button id="post-save-button">Save</button>
+				</div>
+				<div id="post-editor-tags">
+					<span>Some tag <i class="tag-remove fa fa-times"></i></span>
+					<span>Another tag <i class="tag-remove fa fa-times"></i></span>
+					<input type="text" id="post-editor-new-tag" placeholder="tag">
+				</div>
+				<textarea id="post-editor-text"></textarea>
 			</div>
 			
-			<div id="timeline">
+			<div class="content-item" id="timeline">
+				<div class="timeline-pagination">
+					<a class="prev-button">Previous</a>
+					<span class="current-page">4</span>
+					<a class="next-button disabled">Next</a>
+				</div>
+				<div id="timeline-posts">
+					<!--Should be removed-->
+					<article>
+						<table class="post-header">
+							<tr>
+								<td class="post-date">
+									2013/04/15 23:45
+								</td>
+								<td>
+									<a class="post-edit">edit</a>
+								</td>
+								<td>
+									<a class="post-delete">delete</a>
+								</td>
+							</tr>
+						</table>
+						
+						<img class="post-image">
+						<div id="post-content">
+						</div>
+						
+						<div class="post-tags">
+							<span class="tag">Tag</span>
+						</div>
+					</article>
+					<!------------>
+				</div>
+				<div class="timeline-pagination">
+					<a class="prev-button">Previous</a>
+					<span class="current-page">4</span>
+					<a class="next-button disabled">Next</a>
+				</div>
 			</div>
 			
-			<div id="archive">
+			<div class="content-item" id="archive">
 			</div>
 			
-			<div id="settings">
+			<div class="content-item visible" id="settings">
+				<p><span>Path to DayOne folder in dropbox: </span><input type="text" id="settings-path-to-dropbox" placeholder="C:\Dropbox\Applications\Day One"></p>
+				<button id="settings-save">Save</button>
+				<p>Did you expect more settings? Oohh...</p>
 			</div>
 		</div>
 	</body>
