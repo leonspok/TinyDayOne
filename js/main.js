@@ -42,7 +42,7 @@ function Post() {
     this.raw = undefined;
     
     this.createUUID = function() {
-        var uuidSource = this.dateTime.toDateString()+"TinyDayOneWindows"+this.dateTime.toDateString;
+        var uuidSource = this.dateTime.toISOString()+"TinyDayOneWindows"+this.dateTime.toISOString();
         var uuidHash = CryptoJS.MD5(uuidSource);
         var uuidString = hash.toString(CryptoJS.enc.Hex);
         this.uuid = uuidString.toUpperCase();
