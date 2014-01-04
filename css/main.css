@@ -1,7 +1,8 @@
 ::-webkit-scrollbar {
 	background: transparent;
-	width: 2px;
-	height: 2px;
+	width: 6px;
+    border-radius: 3px; 
+	height: 6px;
 }
 
 ::-webkit-scrollbar-track { 
@@ -9,7 +10,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-	background: rgba(0,0,0,0.6);
+	background: rgba(0,0,0,0.5);
 }
 
 ::-webkit-scrollbar-corner {
@@ -39,9 +40,9 @@ a {
 	color: #BBBBBB;
 	font-size: 50px;
 	width: 70px;
-	height: 600px;
+	height: 700px;
 	padding: 0;
-	padding-top: 2em;
+	padding-top: 0em;
 	margin: 0;
 	list-style: none;
 }
@@ -84,7 +85,7 @@ a {
 
 #post-editor-date {
 	border: none;
-	width: 200px;
+	width: 262px;
 	margin-right: 20px;
 }
 
@@ -104,8 +105,7 @@ a {
 
 #post-editor-tags span {
 	margin-right: 20px;
-}
-	
+}	
 
 .tag-remove {
 	cursor: pointer;
@@ -119,10 +119,36 @@ a {
 #post-editor-text {
 	margin-top: 20px;
 	width: 100%;
-	height: 560px;
+	height: 470px;
+    font-family: "Ubuntu";
 	background: #eeeeee;
 	border: none;
 	resize: none;
+    margin-bottom: 20px;
+}
+
+#post-editor-image-area {
+    position: relative;
+    height: 70px;
+    width: 110px;
+    border: 4px dashed #AAAAAA;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+#post-editor-image-area img {
+    width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#remove-image-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    cursor: pointer;
+    text-shadow: #EEEEEE 1px 0px, #EEEEEE 1px 1px, #EEEEEE 0px 1px, #EEEEEE -1px 1px, #EEEEEE -1px 0px, #EEEEEE -1px -1px, #EEEEEE 0px -1px, #EEEEEE 1px -1px;
 }
 
 #settings-save {
@@ -132,4 +158,78 @@ a {
 	border-radius: 3px;
 	color: #eeeeee;
 	border: none;
+}
+
+#timeline, #settings {
+    font-size: 10pt;
+    color: #404040;
+    font-family: "Ubuntu";
+}
+
+#timeline .timeline-pagination {
+    text-align: center;
+}
+
+#timeline .next-button, #timeline .prev-button {
+    cursor: pointer;
+    margin: 10px;
+}
+
+#timeline .next-button.disabled, #timeline .prev-button.disabled {
+    cursor: auto;
+    color: #AAAAAA;
+}
+
+#timeline-posts .post-header {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#timeline-posts .date {
+    padding: 0;
+    width: 390px;
+}
+
+#timeline-posts .post-edit, #timeline-posts .post-delete {
+    text-align: right;
+    padding: 0;
+    width: 50px;
+}
+
+#timeline-posts .post-edit a, #timeline-posts .post-delete a {
+    cursor: pointer;
+}
+
+#timeline-posts .post-image {
+    width: auto;
+    max-width: 490px;
+    border-radius: 5px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#timeline-posts p {
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+}
+
+#timeline-posts article {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #AAAAAA;
+    padding-bottom: 10px;
+}
+
+#timeline-posts .tag {
+    font-weight: bold;
+    margin: 10px;
+}
+
+#timeline-posts .tag:before {
+    content: "#";
+}
+
+
+#settings-path-to-dropbox {
+    width: 260px;
 }

@@ -3,38 +3,46 @@ var postsMap = new Object();
 var photos = new Object();
 
 var fs = require('fs');
-if (!fs.existsSync("settings.json")) {
-    return;
-}
 
-var settingsJSON = fs.readFileSync("settings.json", { "encoding": "utf-8" });
-var settings = JSON.parse(settingsJSON);
+var settings = undefined;
+var pathToDropboxFolder = undefined;
+var entriesPath = undefined;
+var photosPath = undefined;
+var pathForSettings = process.execPath.replace("tinydayone.exe", "")+"settings.json";
+//var pathForSettings = "settings.json";
 
-var pathToDropboxFolder = settings["path"];
-
-pathToDropboxFolder += "/Journal.dayone";
-
-var entriesPath = pathToDropboxFolder + "/entries";
-var photosPath = pathToDropboxFolder+"/photos";
-
-loadPosts();
-
-var entitiesDirWatcher = require("node-watch");
-entitiesDirWatcher(entriesPath, function(filename) {
-  loadPosts();
-});
-
-
+function loadSettings() {
+    if (!fs.existsSync(pathForSettings)) {
+        return;
+    }
+    
+    var settingsJSON = fs.readFileSync(pathForSettings, { "encoding": "utf-8" });
+    settings = JSON.parse(settingsJSON);
+    
+    if (!fs.existsSync(settings["path"])) {
+        var newPath = prompt("Day One folder doesn't exists! Please enter correct path:");
+        settings["path"] = newPath;
+        saveSettings();
+        return;
+    }
+    
+    pathToDropboxFolder = settings["path"];
+    
+    pathToDropboxFolder += "/Journal.dayone";
+    
+    entriesPath = pathToDropboxFolder + "/entries";
+    photosPath = pathToDropboxFolder+"/photos";
+};
 
 function saveSettings() {
-    fs.writeFile('settings.json', JSON.stringify(settings), function (err) {
-        if (err) throw err;
-        console.log('Settings saved');
-    });
-}
+    fs.writeFileSync(pathForSettings, JSON.stringify(settings));
+    console.log('Settings saved');
+    loadSettings();
+    loadPosts();
+};
 
 function Post() {
-	this.uuid = "";
+	this.uuid = undefined;
 	this.plainText = "";
 	this.dateTime = new Date();
 	this.favorite = false;
@@ -42,9 +50,12 @@ function Post() {
     this.raw = undefined;
     
     this.createUUID = function() {
+        if (this.uuid != undefined && this.uuid.length == 32) {
+            return;
+        }
         var uuidSource = this.dateTime.toISOString()+"TinyDayOneWindows"+this.dateTime.toISOString();
         var uuidHash = CryptoJS.MD5(uuidSource);
-        var uuidString = hash.toString(CryptoJS.enc.Hex);
+        var uuidString = uuidHash.toString(CryptoJS.enc.Hex);
         this.uuid = uuidString.toUpperCase();
     };
     
@@ -64,8 +75,10 @@ function Post() {
         this.raw["Starred"] = this.favorite;
         this.raw["Time Zone"] = this.dateTime.getTimezoneOffset();
         
-        if (this.uuid.length != 32) {
-            this.createUUID();
+        if (!this.raw["UUID"]) {
+            if (this.uuid == undefined || this.uuid.length != 32) {
+                this.createUUID();
+            }
             this.raw["UUID"] = this.uuid;
         }
         
@@ -86,23 +99,24 @@ function Post() {
                 fs.unlink(postPath);
                 console.log("Post removed");
             }
+            loadPosts();
         }
     };
     
     this.saveToFile = function() {
         var plist = this.toPlist();
-        var plistString = (new XMLSerializer()).serializeToString(xmlNode);
-        fs.writeFile(entriesPath+"/"+this.uuid+".doentry", plistString, {"encoding":"utf-8"}, function(err) {
+        fs.writeFile(entriesPath+"/"+this.uuid+".doentry", plist, {"encoding":"utf-8"}, function(err) {
             if (err) throw err;
             console.log("Post saved");
-        }
+            loadPosts();
+        });
     };
 };
 
 function comparePostsByTime(a,b) {
-    if (a.dateTime < b.dateTime)
-        return -1;
     if (a.dateTime > b.dateTime)
+        return -1;
+    if (a.dateTime < b.dateTime)
         return 1;
     return 0;
 };
@@ -124,7 +138,7 @@ function loadPosts() {
             post.plainText = postRaw["Entry Text"];
             post.dateTime = new Date(postRaw["Creation Date"]);
             post.favorite = postRaw["Starred"];
-            post.tags = postRaw["Tags"] != undefined ? postRaw["Tags"] : [];
+            post.tags = (postRaw["Tags"] != undefined && postRaw["Tags"].length != 0) ? postRaw["Tags"] : [];
             post.raw = postRaw;
             
             posts.push(post);
@@ -140,6 +154,12 @@ function loadPosts() {
             var uuid = images[i].substr(0, 32);
             var path = photosPath+"/"+images[i];
             photos[uuid] = path;
+        }
+    }
+    
+    if (navigator.state == 2) {
+        if (navigator.controller) {
+            navigator.showViewForState(2, new Timeline((navigator.controller.firstIndex < posts.length)? posts[navigator.controller.firstIndex] : undefined));
         }
     }
 };

@@ -1,4 +1,6 @@
-function postToArticle(post) {    
+function postToArticle(p) {
+    var post = p;
+
     var article = document.createElement("article");
     article.setAttribute("data-post-uuid", post.uuid);
     
@@ -7,13 +9,18 @@ function postToArticle(post) {
     var tr = document.createElement("tr");
     var date = document.createElement("td");
     date.className = "date";
+    var monthS = ("0"+(post.dateTime.getMonth()+1)).slice(-2);
+    var dayS = ("0"+post.dateTime.getDate()).slice(-2);
+    var hourS = ("0"+post.dateTime.getHours()).slice(-2);
+    var minutesS = ("0"+post.dateTime.getMinutes()).slice(-2);
+    date.textContent = post.dateTime.getFullYear()+"/"+monthS+"/"+dayS+" "+hourS+":"+minutesS;
     tr.appendChild(date);
     var editTD = document.createElement("td");
     editTD.className = "post-edit";
     var edit = document.createElement("a");
     edit.className = "post-edit";
     edit.onclick = function(event) {
-        //editPost(post);
+        navigator.showViewForState(1, new PostEditor(post));
     };
     edit.textContent = "edit";
     editTD.appendChild(edit);
@@ -23,7 +30,7 @@ function postToArticle(post) {
     var del = document.createElement("a");
     del.className = "post-delete";
     del.onclick = function(event) {
-        //post.delete();
+        post.delete();
     };
     del.textContent = "delete";
     deleteTD.appendChild(del);
@@ -31,9 +38,13 @@ function postToArticle(post) {
     table.appendChild(tr);
     article.appendChild(table);
     
+    console.log(photos[post.uuid], post.uuid);
     if (photos[post.uuid] != undefined) {
         var img = document.createElement("img");
-        img.src = photos[post.uuid];
+        var path = photos[post.uuid];
+        var extension = path.substr(path.lastIndexOf('.')+1);
+        var dataURL = "data:image/"+extension+";base64,"+fs.readFileSync(photos[post.uuid], 'base64')
+        img.src = dataURL;
         img.className = "post-image";
         article.appendChild(img);
     }
@@ -76,7 +87,7 @@ var monthLengths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 var weekDays = [
     "Monday",
-    "Tuesday',
+    "Tuesday",
     "Wednesday",
     "Thursday",
     "Friday",
@@ -97,7 +108,7 @@ function monthToTable(month) {
     table.className = "month-table";
     
     var firstDay = new Date(month.getYear(), month.getMonth(), 1);
-    var length = (firstDay.getFullYear()%4 == 0 && firstDay.getMonth() == 2)? (monthLengths[firstDay.getMonth()] + 1) : monthLengths[firstDay.getMonth()];
+    var length = (firstDay.getFullYear()%4 == 0 && firstDay.getMonth() == 1)? (monthLengths[firstDay.getMonth()] + 1) : monthLengths[firstDay.getMonth()];
     var tr = document.createElement("tr");
     var ix = 0;
     while(ix != firstDay.getDay()) {

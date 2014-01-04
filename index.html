@@ -3,28 +3,37 @@
 	<head>
 		<meta charset="utf-8">
 		<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="css/ubuntu-fonts.css">
 		<link rel="stylesheet" type="text/css" href="css/main.css">
-		<!--Libraries-->
+		<!--Libraries-------->
 		<script src="lib/plist_parser.js"></script>
         <script src="lib/md5.js"></script>
-        <!--Main------->
+        <!--Main------------->
         <script src="js/main.js"></script>
-        <!--View------->
+        <!--ViewControllers-->
+        <script src="js/main-controller.js"></script>
+        <script src="js/post-editor-controller.js"></script>
+        <script src="js/timeline-controller.js"></script>
+        <script src="js/archive-controller.js"></script>
+        <script src="js/settings-controller.js"></script>
+        <!--View------------->
         <script src="js/view.js"></script>
+        <!--Init------------->
+        <script src="js/init.js"></script>
 	</head>
 	
 	<body>
 		<menu id="toolbar">
-			<li id="write-post"><img src="img/write-post.png"></li>
-			<li id="timeline"><img src="img/timeline.png"></li>
-			<li id="archive"><img src="img/archive.png"></li>
-			<li id="settings"><img src="img/settings.png"></li>
+			<li id="write-post-button"><img src="img/write-post.png"></li>
+			<li id="timeline-button"><img src="img/timeline.png"></li>
+			<!--<li id="archive"><img src="img/archive.png"></li>-->
+			<li id="settings-button"><img src="img/settings.png"></li>
 		</menu>
 		
 		<div id="content">
 			<div class="content-item" id="post-editor">
 				<div id="post-editor-properties">
-					<span>Date: </span><input type="datetime-local" id="post-editor-date">
+					<input type="datetime-local" id="post-editor-date">
 					<span>Favorite: </span><input type="checkbox" id="post-editor-favorite">
 					<button id="post-save-button">Save</button>
 				</div>
@@ -33,46 +42,26 @@
 					<span>Another tag <i class="tag-remove fa fa-times"></i></span>
 					<input type="text" id="post-editor-new-tag" placeholder="tag">
 				</div>
-				<textarea id="post-editor-text"></textarea>
+				<textarea id="post-editor-text" placeholder="Write your post here"></textarea>
+                <div id="post-editor-image-area">
+                    <div id="remove-image-button">
+                        <i class="fa fa-times"></i>
+                    </div>
+                </div>
 			</div>
 			
 			<div class="content-item" id="timeline">
 				<div class="timeline-pagination">
-					<a class="prev-button">Previous</a>
-					<span class="current-page">4</span>
-					<a class="next-button disabled">Next</a>
+					<a class="prev-button">&larr;</a>
+					<span class="current-posts"></span>
+					<a class="next-button disabled">&rarr;</a>
 				</div>
 				<div id="timeline-posts">
-					<!--Should be removed-->
-					<article>
-						<table class="post-header">
-							<tr>
-								<td class="post-date">
-									2013/04/15 23:45
-								</td>
-								<td class="post-edit">
-									<a class="post-edit">edit</a>
-								</td>
-								<td class="post-delete">
-									<a class="post-delete">delete</a>
-								</td>
-							</tr>
-						</table>
-						
-						<img class="post-image">
-						<div id="post-content">
-						</div>
-						
-						<div class="post-tags">
-							<span class="tag">Tag</span>
-						</div>
-					</article>
-					<!------------>
 				</div>
 				<div class="timeline-pagination">
-					<a class="prev-button">Previous</a>
-					<span class="current-page">4</span>
-					<a class="next-button disabled">Next</a>
+					<a class="prev-button">&larr;</a>
+					<span class="current-posts"></span>
+					<a class="next-button disabled">&rarr;</a>
 				</div>
 			</div>
 			
@@ -80,8 +69,11 @@
 			</div>
 			
 			<div class="content-item visible" id="settings">
-				<p><span>Path to DayOne folder in dropbox: </span><input type="text" id="settings-path-to-dropbox" placeholder="C:\Dropbox\Applications\Day One"></p>
+                <h1>Settings</h1>
+                <p><span>Path to DayOne folder in dropbox: </span><input type="text" id="settings-path-to-dropbox" placeholder="C:\Dropbox\Applications\Day One"></p>
 				<button id="settings-save">Save</button>
+                <br>
+                <br>
 				<p>Did you expect more settings? Oohh...</p>
 			</div>
 		</div>
