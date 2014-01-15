@@ -99,6 +99,10 @@ a {
 	margin-left: 20px;
 }
 
+#post-save-button:hover {
+    background: rgb(235, 72, 137);
+}
+
 #post-editor-tags {
 	margin-top: 10px;
 }
@@ -158,6 +162,10 @@ a {
 	border-radius: 3px;
 	color: #eeeeee;
 	border: none;
+}
+
+#settings-save:hover {
+    background: rgb(235, 72, 137);
 }
 
 #timeline, #settings {

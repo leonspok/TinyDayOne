@@ -78,24 +78,28 @@ function PostEditor(post) {
         self.imageExtension = path.substr(path.lastIndexOf(".")+1);		
         showImageByPath(path);
     };
-        
-    this.imageDataURL = undefined;
-    this.imageExtension = undefined;
-    this.imageChanged = false;
-    
-    if (this.currentPost.uuid && photos[this.currentPost.uuid]) {
-        this.loadImageFromFS(photos[this.currentPost.uuid]);
-    }
     
     this.removeImageButton = document.getElementById("remove-image-button");
     this.removeImageButton.onclick = function() {
-        var img = self.postEditorImageArea.getElementsByTagName("img")[0];
-        self.postEditorImageArea.removeChild(img);
+        var imgs = self.postEditorImageArea.getElementsByTagName("img");
+        for (var i = 0; i < imgs.length; i++) {
+            self.postEditorImageArea.removeChild(imgs[i]);
+        }
         self.imageDataURL = undefined;
         self.imageExtension = undefined;
         self.imageChanged = true;
         this.style.display = "none";
     };
+        
+    this.imageDataURL = undefined;
+    this.imageExtension = undefined;
+    this.imageChanged = false;
+    
+    this.removeImageButton.click();
+    this.imageChanged = false;
+    if (this.currentPost.uuid && photos[this.currentPost.uuid]) {
+        this.loadImageFromFS(photos[this.currentPost.uuid]);
+    }
     
     this.loadImage = function(imgFile) {
         self.removeImageButton.click();

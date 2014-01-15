@@ -8,7 +8,7 @@ var settings = undefined;
 var pathToDropboxFolder = undefined;
 var entriesPath = undefined;
 var photosPath = undefined;
-var pathForSettings = process.execPath.replace("tinydayone.exe", "")+"settings.json";
+var pathForSettings = process.execPath.replace(/[a-zA-Z0-9_ -]+.exe/, "settings.json");
 //var pathForSettings = "settings.json";
 
 function pathToDropboxCheck() {
@@ -22,8 +22,7 @@ function pathToDropboxCheck() {
 function loadSettings() {
     console.log("Path to settings:", pathForSettings);
     if (!fs.existsSync(pathForSettings)) {
-        alert("Cannot find settings.json. Application will terminate.");
-        process.exit(0);
+        fs.writeFileSync(pathForSettings, JSON.stringify({"path":"."}));
     }
     
     var settingsJSON = fs.readFileSync(pathForSettings, { "encoding": "utf-8" });
