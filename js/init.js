@@ -1,7 +1,10 @@
 window.onload = function() {
     loadSettings();
+    console.log("Settings loaded. Check path...");
+    pathToDropboxCheck();
+    console.log("Path is correct. Loading posts...");
     loadPosts();
-    
+    console.log("Posts loaded.");
     setInterval(function() {
         var oldPath = settings["path"];
         loadSettings();

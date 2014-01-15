@@ -38,7 +38,7 @@ function postToArticle(p) {
     table.appendChild(tr);
     article.appendChild(table);
     
-    console.log(photos[post.uuid], post.uuid);
+    //console.log(photos[post.uuid], post.uuid);
     if (photos[post.uuid] != undefined) {
         var img = document.createElement("img");
         var path = photos[post.uuid];
