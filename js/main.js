@@ -72,8 +72,9 @@ function Post() {
         }
         this.raw["Creation Date"] = this.dateTime;
         this.raw["Entry Text"] = this.plainText;
-        this.raw["Starred"] = this.favorite;
-        this.raw["Time Zone"] = this.dateTime.getTimezoneOffset();
+        this.raw["Starred"] = new Boolean(this.favorite);
+        var timezone = jstz.determine();
+        this.raw["Time Zone"] = timezone.name();
         
         if (!this.raw["UUID"]) {
             if (this.uuid == undefined || this.uuid.length != 32) {
@@ -84,7 +85,9 @@ function Post() {
         
         this.raw["Tags"] = this.tags;
         
-        return PlistParser.toPlist(this.raw);
+        var plistBuilder = require("plist");
+        
+        return plistBuilder.build(this.raw);
     };
     
     this.delete = function() {
@@ -128,15 +131,19 @@ function loadPosts() {
 	var entries = fs.readdirSync(entriesPath);
 	var entryNamePattern = new RegExp("[0-9A-Z]{32}[.]doentry");
     for (var i = 0; i < entries.length; i++) {
-        if (entries[i].search(entryNamePattern) != -1) {
+        if (entries[i].search(entryNamePattern) != -1 && fs.existsSync(entriesPath+"/"+entries[i])) {
             var post = new Post();
+            
             var plistString = fs.readFileSync(entriesPath+"/"+entries[i], {"encoding":"utf-8"});
-            var plistXML = textToXML(plistString)
-            var postRaw = PlistParser.parse(plistXML);
+            var plistParser = require("plist");
+            var postRaw = plistParser.parseStringSync(plistString);
             
             post.uuid = postRaw["UUID"];
             post.plainText = postRaw["Entry Text"];
             post.dateTime = new Date(postRaw["Creation Date"]);
+            if (!postRaw["Starred"]) {
+                postRaw["Starred"] = false;
+            }
             post.favorite = postRaw["Starred"];
             post.tags = (postRaw["Tags"] != undefined && postRaw["Tags"].length != 0) ? postRaw["Tags"] : [];
             post.raw = postRaw;
@@ -150,7 +157,7 @@ function loadPosts() {
     var images = fs.readdirSync(photosPath);
     var imageNamePattern = new RegExp("[0-9A-Z]{32}[.].+");
     for (var i = 0; i < images.length; i++) {
-        if (images[i].search(imageNamePattern) != -1) {
+        if (images[i].search(imageNamePattern) != -1 && fs.existsSync(photosPath+"/"+images[i])) {
             var uuid = images[i].substr(0, 32);
             var path = photosPath+"/"+images[i];
             photos[uuid] = path;

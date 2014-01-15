@@ -1,20 +1,30 @@
 {
-	"name": "TinyDayOne",
-	"main": "index.html",
-    "version": "0.1",
-	"window": {
-        "title": "TinyDayOne",
-        "toolbar": false,
-        "icon": "icon.png",
-        "position": "mouse",
-		"width": 600,
-        "max_width": 600,
-        "min_width": 600,
-		"height": 700,
-        "max_height": 700,
-        "min_height": 700
-	},
-    "webkit": {
-        "page-cache": false
-    }
+  "name": "TinyDayOne",
+  "main": "index.html",
+  "description": "Tiny Day One client app.",
+  "author": "Igor Savelev <igor9774@gmail.com>",
+  "version": "0.1.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/leonspok/TinyDayOne-Windows.git"
+  },
+  "window": {
+    "title": "TinyDayOne",
+    "toolbar": false,
+    "icon": "icon.png",
+    "position": "mouse",
+    "width": 600,
+    "max_width": 600,
+    "min_width": 600,
+    "height": 700,
+    "max_height": 700,
+    "min_height": 700
+  },
+  "webkit": {
+    "page-cache": false
+  },
+  "dependencies": {
+    "markdown": "~0.5.0",
+    "plist": "~0.4.3"
+  }
 }
