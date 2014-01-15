@@ -6,7 +6,7 @@ function PostEditor(post) {
     this.dateInput.value = this.currentPost.dateTime.toISOString().replace("Z", "");
     
     this.favoriteCheck = document.getElementById("post-editor-favorite");
-    this.favoriteCheck = this.currentPost.favorite;
+    this.favoriteCheck.checked = this.currentPost.favorite;
     
     this.postEditorTags = document.getElementById("post-editor-tags");
     this.postEditorNewTag = document.getElementById("post-editor-new-tag");

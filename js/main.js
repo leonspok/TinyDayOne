@@ -11,20 +11,23 @@ var photosPath = undefined;
 var pathForSettings = process.execPath.replace("tinydayone.exe", "")+"settings.json";
 //var pathForSettings = "settings.json";
 
+function pathToDropboxCheck() {
+    while (!fs.existsSync(pathToDropboxFolder) || !fs.existsSync(entriesPath) || !fs.existsSync(photosPath)) {
+        var newPath = prompt("Day One folder doesn't exists! Please enter correct path:");
+        settings["path"] = newPath;
+        saveSettings();
+    }
+};
+
 function loadSettings() {
+    console.log("Path to settings:", pathForSettings);
     if (!fs.existsSync(pathForSettings)) {
-        return;
+        alert("Cannot find settings.json. Application will terminate.");
+        process.exit(0);
     }
     
     var settingsJSON = fs.readFileSync(pathForSettings, { "encoding": "utf-8" });
     settings = JSON.parse(settingsJSON);
-    
-    if (!fs.existsSync(settings["path"])) {
-        var newPath = prompt("Day One folder doesn't exists! Please enter correct path:");
-        settings["path"] = newPath;
-        saveSettings();
-        return;
-    }
     
     pathToDropboxFolder = settings["path"];
     
@@ -38,7 +41,7 @@ function saveSettings() {
     fs.writeFileSync(pathForSettings, JSON.stringify(settings));
     console.log('Settings saved');
     loadSettings();
-    loadPosts();
+    pathToDropboxCheck();
 };
 
 function Post() {
@@ -72,7 +75,7 @@ function Post() {
         }
         this.raw["Creation Date"] = this.dateTime;
         this.raw["Entry Text"] = this.plainText;
-        this.raw["Starred"] = new Boolean(this.favorite);
+        this.raw["Starred"] = this.favorite;
         var timezone = jstz.determine();
         this.raw["Time Zone"] = timezone.name();
         
@@ -141,8 +144,10 @@ function loadPosts() {
             post.uuid = postRaw["UUID"];
             post.plainText = postRaw["Entry Text"];
             post.dateTime = new Date(postRaw["Creation Date"]);
-            if (!postRaw["Starred"]) {
+            if (postRaw["Starred"] == undefined || postRaw["Starred"] == false) {
                 postRaw["Starred"] = false;
+            } else {
+                postRaw["Starred"] = true;
             }
             post.favorite = postRaw["Starred"];
             post.tags = (postRaw["Tags"] != undefined && postRaw["Tags"].length != 0) ? postRaw["Tags"] : [];
