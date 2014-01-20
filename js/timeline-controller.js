@@ -1,22 +1,29 @@
-function Timeline(post) {
+function Timeline(post, tags) {
     var nextPages = document.getElementsByClassName("next-button");
     var prevPages = document.getElementsByClassName("prev-button");
-    this.firstIndex = posts.indexOf(post);
+    var timelinePosts = [];
+    this.tags = tags;
+    if (tags && tags.length != 0) {
+        timelinePosts = getPostsWithTags(this.tags);
+    } else {
+        timelinePosts = posts;
+    }
+    this.firstIndex = timelinePosts.indexOf(post);
     if (this.firstIndex == -1) {
         this.firstIndex = 0;
     }
     this.lastIndex = this.firstIndex+14;
-    if (this.lastIndex >= posts.length) {
-        this.lastIndex = posts.length-1;
+    if (this.lastIndex >= timelinePosts.length) {
+        this.lastIndex = timelinePosts.length-1;
     }
     
     var self = this;
     var showNextPage = function() {
-        if (self.lastIndex == posts.length-1) {
+        if (self.lastIndex == timelinePosts.length-1) {
             return;
         }
-        var post = posts[self.lastIndex+1];
-        navigator.showViewForState(2, new Timeline(post));
+        var post = timelinePosts[self.lastIndex+1];
+        navigator.showViewForState(2, new Timeline(post, self.tags));
     };
     
     var showPreviousPage = function() {
@@ -27,8 +34,8 @@ function Timeline(post) {
         if (newIndex < 0) {
             newIndex = 0;
         }
-        var post = posts[newIndex];
-        navigator.showViewForState(2, new Timeline(post));
+        var post = timelinePosts[newIndex];
+        navigator.showViewForState(2, new Timeline(post, self.tags));
     };
     
     if (self.firstIndex == 0) {
@@ -48,7 +55,7 @@ function Timeline(post) {
             };
         }
     }
-    if (self.lastIndex == posts.length-1) {
+    if (self.lastIndex == timelinePosts.length-1) {
         for (var i = 0; i < nextPages.length; i++) {
             if (nextPages[i].className.indexOf(" disabled") == -1) {
                 nextPages[i].className += " disabled";
@@ -76,8 +83,8 @@ function Timeline(post) {
     this.timeLinePostsDiv.innerHTML = "";
     this.timelinePosts = [];
     for (var i = this.firstIndex; i <= this.lastIndex; i++) {
-        this.timelinePosts.push(posts[i]);
-        var p = postToArticle(posts[i]);
+        this.timelinePosts.push(timelinePosts[i]);
+        var p = postToArticle(timelinePosts[i]);
         this.timeLinePostsDiv.appendChild(p);
     }
 };

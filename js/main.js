@@ -118,6 +118,31 @@ function Post() {
     };
 };
 
+function getPostsWithTags(tags) {
+    var tagsPosts = [];
+    for (var i = 0; i < posts.length; i++) {
+        var allFound = true;
+        for (var j = 0; j < tags.length; j++) {
+            var found = false;
+            for (var t = 0; t < posts[i].tags.length; t++) {
+                if (posts[i].tags[t].valueOf() == tags[j].valueOf()) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                allFound = found;
+                break;
+            }
+        }
+        if (allFound) {
+            tagsPosts.push(posts[i]);
+        }
+    }
+    console.log(tagsPosts.length, "posts with tags:", tags, "loaded");
+    return tagsPosts;
+};
+
 function comparePostsByTime(a,b) {
     if (a.dateTime > b.dateTime)
         return -1;
@@ -149,7 +174,8 @@ function loadPosts() {
                 postRaw["Starred"] = true;
             }
             post.favorite = postRaw["Starred"];
-            post.tags = (postRaw["Tags"] != undefined && postRaw["Tags"].length != 0) ? postRaw["Tags"] : [];
+            post.tags = (postRaw["Tags"] != undefined && postRaw["Tags"].length != 0) ? postRaw["Tags"] : [];   
+            
             post.raw = postRaw;
             
             posts.push(post);
@@ -170,7 +196,9 @@ function loadPosts() {
     
     if (navigator.state == 2) {
         if (navigator.controller) {
-            navigator.showViewForState(2, new Timeline((navigator.controller.firstIndex < posts.length)? posts[navigator.controller.firstIndex] : undefined));
+            var p = (navigator.controller.firstIndex < posts.length)? posts[navigator.controller.firstIndex] : undefined;
+            var t = (navigator.controller.tags != undefined)? navigator.controller.tags : undefined;
+            navigator.showViewForState(2, new Timeline(p, t));
         }
     }
 };

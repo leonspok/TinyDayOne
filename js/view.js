@@ -58,11 +58,17 @@ function postToArticle(p) {
     
     var tags = document.createElement("div");
     tags.className = "post-tags";
-    var tagsSpans = "";
     for (var i = 0; i < post.tags.length; i++) {
-        tagsSpans += "<span class='tag'>"+post.tags[i]+"</span>";
+        var span = document.createElement("span");
+        span.className = "tag";
+        span.textContent = post.tags[i];
+        span.onclick = function(event) {
+            navigator.showViewForState(2, new Timeline(undefined, [this.textContent]));
+        };
+        tags.appendChild(span);
+        //tagsSpans += "<span class='tag'>"+post.tags[i]+"</span>";
     }
-    tags.innerHTML = tagsSpans;
+    //tags.innerHTML = tagsSpans;
     article.appendChild(tags);
     
     return article;
