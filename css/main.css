@@ -229,6 +229,20 @@ a {
     padding-bottom: 10px;
 }
 
+#timeline-posts .post-content blockquote {
+    margin-left: 20px;
+    padding-left: 1em;
+    border-left: 4px solid #A0A0A0;
+}
+
+#timeline-posts .post-content a {
+    color: #0E74BD;
+}
+
+#timeline-posts .post-content a:hover {
+    text-decoration: underline;
+}
+
 #timeline-posts .tag {
     cursor: pointer;
     font-weight: bold;

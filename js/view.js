@@ -56,6 +56,16 @@ function postToArticle(p) {
     postContent.innerHTML = markdown.toHTML(post.plainText);
     article.appendChild(postContent);
     
+    var linksInPost = postContent.getElementsByTagName("a");
+    for (var i = 0; i < linksInPost.length; i++) {
+        var a = linksInPost[i];
+        a.onclick = function(event) {
+            event.preventDefault();
+            var gui = require("nw.gui");
+            gui.Shell.openExternal(a.href);
+        };
+    }
+    
     var tags = document.createElement("div");
     tags.className = "post-tags";
     for (var i = 0; i < post.tags.length; i++) {

@@ -1,3 +1,4 @@
+var editor;
 window.onload = function() {
     loadSettings();
     console.log("Settings loaded. Check path...");
@@ -30,7 +31,7 @@ window.onload = function() {
     };
     
     document.getElementById("write-post-button").onclick = function() {
-        navigator.showViewForState(1, new PostEditor);
+        navigator.showViewForState(1, new PostEditor());
     };
     
     document.getElementById("timeline-button").onclick = function() {
@@ -40,4 +41,11 @@ window.onload = function() {
     document.getElementById("settings-button").onclick = function() {
         navigator.showViewForState(4, new Settings());
     };
+    
+    var options = {
+        "element": document.getElementById("post-editor-text"),
+        "status": false
+    };
+    editor = new Editor(options);
+    editor.render();
 };
