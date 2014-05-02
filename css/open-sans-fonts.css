@@ -1,0 +1,41 @@
+@font-face {
+    font-family: "Open Sans";
+    font-style: normal;
+    font-weight: bold;
+    src: url('../fonts/OpenSans-Bold.ttf');
+}
+
+@font-face {
+    font-family: "Open Sans";
+    font-style: italic;
+    font-weight: bold;
+    src: url('../fonts/OpenSans-BoldItalic.ttf');
+}
+
+@font-face {
+    font-family: "Open Sans";
+    font-style: normal;
+    font-weight: lighter;
+    src: url('../fonts/OpenSans-Light.ttf');
+}
+
+@font-face {
+    font-family: "Open Sans";
+    font-style: italic;
+    font-weight: lighter;
+    src: local('Ubuntu'), url('../fonts/OpenSans-LightItalic.ttf');
+}
+
+@font-face {
+    font-family: "Open Sans";
+    font-style: normal;
+    font-weight: normal;
+    src: url('../fonts/OpenSans-Regular.ttf');
+}
+
+@font-face {
+    font-family: "Open Sans";
+    font-style: italic;
+    font-weight: normal;
+    src: url('../fonts/OpenSans-Italic.ttf');
+}

@@ -87,7 +87,7 @@ function PostEditor(post) {
     };
     
     this.removeImageButton = document.getElementById("remove-image-button");
-    this.removeImageButton.onclick = function() {
+    this.removeImageButton.onclick = function(event) {
         var imgs = self.postEditorImageArea.getElementsByTagName("img");
         for (var i = 0; i < imgs.length; i++) {
             self.postEditorImageArea.removeChild(imgs[i]);
@@ -96,6 +96,7 @@ function PostEditor(post) {
         self.imageExtension = undefined;
         self.imageChanged = true;
         this.style.display = "none";
+        event.stopPropagation();
     };
         
     this.imageDataURL = undefined;
@@ -148,6 +149,14 @@ function PostEditor(post) {
     
     this.postEditorImageArea.ondrop = function(event) {
         loadFromArea(event);
+    };
+    
+    this.postEditorImageArea.onclick = function(event) {
+        var fileDialog = document.getElementById("post-editor-image-file-dialog");
+        fileDialog.onchange = function(event) {
+            self.loadImage(event.target.files[0]);
+        };
+        fileDialog.click();
     };
     
     this.saveButton = document.getElementById("post-save-button");

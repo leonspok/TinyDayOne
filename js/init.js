@@ -1,8 +1,18 @@
 var editor;
-window.onload = function() {
+
+var initFunction = function() {
+    var dropboxPathChooser = document.getElementById("settings-path-to-dropbox-file-dialog");
+    dropboxPathChooser.onchange = function(event) {
+        console.log("Value: "+this.value);
+        settings["path"] = this.value;
+        saveSettings();
+        initFunction();
+    };    
     loadSettings();
     console.log("Settings loaded. Check path...");
-    pathToDropboxCheck();
+    if (!pathToDropboxCheck()) {
+        return;
+    }
     console.log("Path is correct. Loading posts...");
     loadPosts();
     console.log("Posts loaded.");
@@ -48,4 +58,8 @@ window.onload = function() {
     };
     editor = new Editor(options);
     editor.render();
+};
+
+window.onload = function() {
+    initFunction();
 };

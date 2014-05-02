@@ -8,25 +8,35 @@ var settings = undefined;
 var pathToDropboxFolder = undefined;
 var entriesPath = undefined;
 var photosPath = undefined;
-var pathForSettings = process.execPath.replace(/[a-zA-Z0-9_ -]+.exe/, "settings.json");
-//var pathForSettings = "settings.json";
+//var pathForSettings = process.execPath.replace(/[a-zA-Z0-9_ -]+.exe/, "settings.json");
+var pathForSettings = "settings.json";
 
 function pathToDropboxCheck() {
-    while (!fs.existsSync(pathToDropboxFolder) || !fs.existsSync(entriesPath) || !fs.existsSync(photosPath)) {
-        var newPath = prompt("Day One folder doesn't exists! Please enter correct path:");
-        settings["path"] = newPath;
-        saveSettings();
+    console.log("Path to Dropbox folder: "+pathToDropboxFolder);
+    if (!fs.existsSync(pathToDropboxFolder) || !fs.existsSync(entriesPath) || !fs.existsSync(photosPath)) {
+        alert("Incorrect Day One folder! Please choose correct folder.");
+        document.getElementById("settings-path-to-dropbox-file-dialog").click();
+        return false;
     }
+    return true;
 };
 
 function loadSettings() {
-    console.log("Path to settings:", pathForSettings);
+    /*console.log("Path to settings:", pathForSettings);
     if (!fs.existsSync(pathForSettings)) {
         fs.writeFileSync(pathForSettings, JSON.stringify({"path":"."}));
     }
     
     var settingsJSON = fs.readFileSync(pathForSettings, { "encoding": "utf-8" });
-    settings = JSON.parse(settingsJSON);
+    settings = JSON.parse(settingsJSON);*/
+    
+    var settingsJSON = localStorage["settings"];
+    try {
+        settings = JSON.parse(settingsJSON);
+    } catch(e) {
+        settings = {"path":"."};
+        localStorage["settings"] = JSON.stringify(settings);
+    }
     
     pathToDropboxFolder = settings["path"];
     
@@ -37,7 +47,8 @@ function loadSettings() {
 };
 
 function saveSettings() {
-    fs.writeFileSync(pathForSettings, JSON.stringify(settings));
+    //fs.writeFileSync(pathForSettings, JSON.stringify(settings));
+    localStorage.setItem("settings", JSON.stringify(settings));
     console.log('Settings saved');
     loadSettings();
     pathToDropboxCheck();

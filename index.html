@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
-        <link rel="stylesheet" type="text/css" href="css/ubuntu-fonts.css">
+        <link rel="stylesheet" type="text/css" href="css/open-sans-fonts.css">
 		<link rel="stylesheet" type="text/css" href="css/main.css">
         <link rel="stylesheet" type="text/css" href="css/editor.css">
 		<!--Libraries-------->
@@ -49,6 +49,7 @@
                     <div id="remove-image-button">
                         <i class="fa fa-times"></i>
                     </div>
+                    <input type="file" id="post-editor-image-file-dialog" style="display: none;" />
                 </div>
 			</div>
 			
@@ -71,9 +72,9 @@
 			</div>
 			
 			<div class="content-item visible" id="settings">
-                <h1>Settings</h1>
-                <p><span>Path to DayOne folder in dropbox: </span><input type="text" id="settings-path-to-dropbox" placeholder="C:\Dropbox\Applications\Day One"></p>
-				<button id="settings-save">Save</button>
+                <h1>SETTINGS</h1>
+                <p><span>Path to DayOne folder in dropbox: </span></p>
+                <p><input id="settings-path-to-dropbox-file-dialog" type="file" nwdirectory /></p>
                 <br>
                 <br>
 				<p>Did you expect more settings? Oohh...</p>
