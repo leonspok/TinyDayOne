@@ -1,7 +1,6 @@
 ::-webkit-scrollbar {
 	background: transparent;
 	width: 6px;
-    border-radius: 3px; 
 	height: 6px;
 }
 
@@ -10,7 +9,9 @@
 }
 
 ::-webkit-scrollbar-thumb {
-	background: rgba(0,0,0,0.5);
+	background: rgba(0,0,0,0.3);
+    border: 1px solid white;
+    border-radius: 3px; 
 }
 
 ::-webkit-scrollbar-corner {
@@ -124,7 +125,7 @@ a {
 	margin-top: 20px;
 	width: 100%;
 	height: 460px;
-    font-family: "Ubuntu";
+    font-family: "Open Sans";
 	background: #eeeeee;
 	border: none;
 	resize: none;
@@ -138,6 +139,11 @@ a {
     border: 4px dashed #AAAAAA;
     border-radius: 15px;
     overflow: hidden;
+    
+    background: url('../img/image-icon.svg') no-repeat;
+    background-position: center center;
+    background-size: 50% 50%;
+    cursor: pointer;
 }
 
 #post-editor-image-area img {
@@ -171,7 +177,7 @@ a {
 #timeline, #settings {
     font-size: 10pt;
     color: #404040;
-    font-family: "Ubuntu";
+    font-family: "Open Sans";
 }
 
 #timeline .timeline-pagination {
@@ -200,6 +206,8 @@ a {
 
 #timeline-posts .post-edit, #timeline-posts .post-delete {
     text-align: right;
+    text-transform: uppercase;
+    font-size: 0.9em;
     padding: 0;
     width: 50px;
 }
@@ -218,17 +226,35 @@ a {
 }
 
 #timeline-posts p {
-    margin-top: 0.3em;
-    margin-bottom: 0.3em;
+    
 }
 
 #timeline-posts article {
-    margin-bottom: 30px;
-    border-bottom: 1px solid #AAAAAA;
+    margin-bottom: 60px;
+    border-bottom: 1px dashed #AAAAAA;
     padding-bottom: 10px;
 }
 
+#timeline-posts .post-content {
+    font-size: 1.1em;
+}
+
+#timeline-posts .post-content blockquote {
+    margin-left: 20px;
+    padding-left: 1em;
+    border-left: 4px solid #A0A0A0;
+}
+
+#timeline-posts .post-content a {
+    color: #0E74BD;
+}
+
+#timeline-posts .post-content a:hover {
+    text-decoration: underline;
+}
+
 #timeline-posts .tag {
+    cursor: pointer;
     font-weight: bold;
     margin: 10px;
 }

@@ -1,7 +1,18 @@
-window.onload = function() {
+var editor;
+
+var initFunction = function() {
+    var dropboxPathChooser = document.getElementById("settings-path-to-dropbox-file-dialog");
+    dropboxPathChooser.onchange = function(event) {
+        console.log("Value: "+this.value);
+        settings["path"] = this.value;
+        saveSettings();
+        initFunction();
+    };    
     loadSettings();
     console.log("Settings loaded. Check path...");
-    pathToDropboxCheck();
+    if (!pathToDropboxCheck()) {
+        return;
+    }
     console.log("Path is correct. Loading posts...");
     loadPosts();
     console.log("Posts loaded.");
@@ -30,7 +41,7 @@ window.onload = function() {
     };
     
     document.getElementById("write-post-button").onclick = function() {
-        navigator.showViewForState(1, new PostEditor);
+        navigator.showViewForState(1, new PostEditor());
     };
     
     document.getElementById("timeline-button").onclick = function() {
@@ -40,4 +51,15 @@ window.onload = function() {
     document.getElementById("settings-button").onclick = function() {
         navigator.showViewForState(4, new Settings());
     };
+    
+    var options = {
+        "element": document.getElementById("post-editor-text"),
+        "status": false
+    };
+    editor = new Editor(options);
+    editor.render();
+};
+
+window.onload = function() {
+    initFunction();
 };

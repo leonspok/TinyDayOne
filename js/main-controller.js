@@ -1,6 +1,5 @@
 var navigator = {
     state: 2,
-    viewController: undefined,
     controller: undefined,
     showViewForState: function(state, controller) {
         this.controller = controller;

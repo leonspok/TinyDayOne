@@ -1,9 +1,13 @@
 function PostEditor(post) {
     var self = this;
-    this.currentPost = post? post : new Post();
+    this.currentPost = typeof post != 'undefined' ? post : new Post();
 
     this.dateInput = document.getElementById("post-editor-date");
     this.dateInput.value = this.currentPost.dateTime.toISOString().replace("Z", "");
+    this.dateInputChanged = false;
+    this.dateInput.onchange = function(event) {
+        self.dateInputChanged = true;
+    };
     
     this.favoriteCheck = document.getElementById("post-editor-favorite");
     this.favoriteCheck.checked = this.currentPost.favorite;
@@ -55,7 +59,10 @@ function PostEditor(post) {
     this.updateTags();
     
     this.textarea = document.getElementById("post-editor-text");
-    this.textarea.value = self.currentPost.plainText;
+    editor.codemirror.setValue(self.currentPost.plainText);
+    setTimeout(function() {
+        editor.codemirror.refresh();
+    }, 0);
     
     this.postEditorImageArea = document.getElementById("post-editor-image-area");
     
@@ -80,7 +87,7 @@ function PostEditor(post) {
     };
     
     this.removeImageButton = document.getElementById("remove-image-button");
-    this.removeImageButton.onclick = function() {
+    this.removeImageButton.onclick = function(event) {
         var imgs = self.postEditorImageArea.getElementsByTagName("img");
         for (var i = 0; i < imgs.length; i++) {
             self.postEditorImageArea.removeChild(imgs[i]);
@@ -89,6 +96,7 @@ function PostEditor(post) {
         self.imageExtension = undefined;
         self.imageChanged = true;
         this.style.display = "none";
+        event.stopPropagation();
     };
         
     this.imageDataURL = undefined;
@@ -96,6 +104,7 @@ function PostEditor(post) {
     this.imageChanged = false;
     
     this.removeImageButton.click();
+    console.log("clicked");
     this.imageChanged = false;
     if (this.currentPost.uuid && photos[this.currentPost.uuid]) {
         this.loadImageFromFS(photos[this.currentPost.uuid]);
@@ -142,11 +151,21 @@ function PostEditor(post) {
         loadFromArea(event);
     };
     
+    this.postEditorImageArea.onclick = function(event) {
+        var fileDialog = document.getElementById("post-editor-image-file-dialog");
+        fileDialog.onchange = function(event) {
+            self.loadImage(event.target.files[0]);
+        };
+        fileDialog.click();
+    };
+    
     this.saveButton = document.getElementById("post-save-button");
     this.saveButton.onclick = function() {
-        self.currentPost.dateTime = new Date(self.dateInput.value);
+        if (self.dateInputChanged) {
+            self.currentPost.dateTime = new Date(self.dateInput.value);
+        }
         self.currentPost.favorite = self.favoriteCheck.checked;
-        self.currentPost.plainText = self.textarea.value;
+        self.currentPost.plainText = editor.codemirror.getValue();
         if (self.currentPost.uuid == undefined || self.currentPost.uuid.length != 32) {
                 self.currentPost.createUUID();
         }

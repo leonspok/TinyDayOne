@@ -56,13 +56,29 @@ function postToArticle(p) {
     postContent.innerHTML = markdown.toHTML(post.plainText);
     article.appendChild(postContent);
     
+    var linksInPost = postContent.getElementsByTagName("a");
+    for (var i = 0; i < linksInPost.length; i++) {
+        var a = linksInPost[i];
+        a.onclick = function(event) {
+            event.preventDefault();
+            var gui = require("nw.gui");
+            gui.Shell.openExternal(a.href);
+        };
+    }
+    
     var tags = document.createElement("div");
     tags.className = "post-tags";
-    var tagsSpans = "";
     for (var i = 0; i < post.tags.length; i++) {
-        tagsSpans += "<span class='tag'>"+post.tags[i]+"</span>";
+        var span = document.createElement("span");
+        span.className = "tag";
+        span.textContent = post.tags[i];
+        span.onclick = function(event) {
+            navigator.showViewForState(2, new Timeline(undefined, [this.textContent]));
+        };
+        tags.appendChild(span);
+        //tagsSpans += "<span class='tag'>"+post.tags[i]+"</span>";
     }
-    tags.innerHTML = tagsSpans;
+    //tags.innerHTML = tagsSpans;
     article.appendChild(tags);
     
     return article;

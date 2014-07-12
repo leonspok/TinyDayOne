@@ -8,25 +8,35 @@ var settings = undefined;
 var pathToDropboxFolder = undefined;
 var entriesPath = undefined;
 var photosPath = undefined;
-var pathForSettings = process.execPath.replace(/[a-zA-Z0-9_ -]+.exe/, "settings.json");
-//var pathForSettings = "settings.json";
+//var pathForSettings = process.execPath.replace(/[a-zA-Z0-9_ -]+.exe/, "settings.json");
+var pathForSettings = "settings.json";
 
 function pathToDropboxCheck() {
-    while (!fs.existsSync(pathToDropboxFolder) || !fs.existsSync(entriesPath) || !fs.existsSync(photosPath)) {
-        var newPath = prompt("Day One folder doesn't exists! Please enter correct path:");
-        settings["path"] = newPath;
-        saveSettings();
+    console.log("Path to Dropbox folder: "+pathToDropboxFolder);
+    if (!fs.existsSync(pathToDropboxFolder) || !fs.existsSync(entriesPath) || !fs.existsSync(photosPath)) {
+        alert("Incorrect Day One folder! Please choose correct folder.");
+        document.getElementById("settings-path-to-dropbox-file-dialog").click();
+        return false;
     }
+    return true;
 };
 
 function loadSettings() {
-    console.log("Path to settings:", pathForSettings);
+    /*console.log("Path to settings:", pathForSettings);
     if (!fs.existsSync(pathForSettings)) {
         fs.writeFileSync(pathForSettings, JSON.stringify({"path":"."}));
     }
     
     var settingsJSON = fs.readFileSync(pathForSettings, { "encoding": "utf-8" });
-    settings = JSON.parse(settingsJSON);
+    settings = JSON.parse(settingsJSON);*/
+    
+    var settingsJSON = localStorage["settings"];
+    try {
+        settings = JSON.parse(settingsJSON);
+    } catch(e) {
+        settings = {"path":"."};
+        localStorage["settings"] = JSON.stringify(settings);
+    }
     
     pathToDropboxFolder = settings["path"];
     
@@ -37,7 +47,8 @@ function loadSettings() {
 };
 
 function saveSettings() {
-    fs.writeFileSync(pathForSettings, JSON.stringify(settings));
+    //fs.writeFileSync(pathForSettings, JSON.stringify(settings));
+    localStorage.setItem("settings", JSON.stringify(settings));
     console.log('Settings saved');
     loadSettings();
     pathToDropboxCheck();
@@ -118,6 +129,31 @@ function Post() {
     };
 };
 
+function getPostsWithTags(tags) {
+    var tagsPosts = [];
+    for (var i = 0; i < posts.length; i++) {
+        var allFound = true;
+        for (var j = 0; j < tags.length; j++) {
+            var found = false;
+            for (var t = 0; t < posts[i].tags.length; t++) {
+                if (posts[i].tags[t].valueOf() == tags[j].valueOf()) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                allFound = found;
+                break;
+            }
+        }
+        if (allFound) {
+            tagsPosts.push(posts[i]);
+        }
+    }
+    console.log(tagsPosts.length, "posts with tags:", tags, "loaded");
+    return tagsPosts;
+};
+
 function comparePostsByTime(a,b) {
     if (a.dateTime > b.dateTime)
         return -1;
@@ -149,7 +185,8 @@ function loadPosts() {
                 postRaw["Starred"] = true;
             }
             post.favorite = postRaw["Starred"];
-            post.tags = (postRaw["Tags"] != undefined && postRaw["Tags"].length != 0) ? postRaw["Tags"] : [];
+            post.tags = (postRaw["Tags"] != undefined && postRaw["Tags"].length != 0) ? postRaw["Tags"] : [];   
+            
             post.raw = postRaw;
             
             posts.push(post);
@@ -170,7 +207,9 @@ function loadPosts() {
     
     if (navigator.state == 2) {
         if (navigator.controller) {
-            navigator.showViewForState(2, new Timeline((navigator.controller.firstIndex < posts.length)? posts[navigator.controller.firstIndex] : undefined));
+            var p = (navigator.controller.firstIndex < posts.length)? posts[navigator.controller.firstIndex] : undefined;
+            var t = (navigator.controller.tags != undefined)? navigator.controller.tags : undefined;
+            navigator.showViewForState(2, new Timeline(p, t));
         }
     }
 };
