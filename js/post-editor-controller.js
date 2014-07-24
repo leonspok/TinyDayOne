@@ -3,7 +3,8 @@ function PostEditor(post) {
     this.currentPost = typeof post != 'undefined' ? post : new Post();
 
     this.dateInput = document.getElementById("post-editor-date");
-    this.dateInput.value = this.currentPost.dateTime.toISOString().replace("Z", "");
+    var localDate = new Date();
+    this.dateInput.value = (new Date(this.currentPost.dateTime.getTime()-localDate.getTimezoneOffset()*60000)).toISOString().replace("Z", "");
     this.dateInputChanged = false;
     this.dateInput.onchange = function(event) {
         self.dateInputChanged = true;
@@ -162,7 +163,8 @@ function PostEditor(post) {
     this.saveButton = document.getElementById("post-save-button");
     this.saveButton.onclick = function() {
         if (self.dateInputChanged) {
-            self.currentPost.dateTime = new Date(self.dateInput.value);
+            var localDate = new Date();
+            self.currentPost.dateTime = new Date((new Date(self.dateInput.value)).getTime() + localDate.getTimezoneOffset()*60000);
         }
         self.currentPost.favorite = self.favoriteCheck.checked;
         self.currentPost.plainText = editor.codemirror.getValue();
