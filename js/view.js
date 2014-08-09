@@ -38,7 +38,6 @@ function postToArticle(p) {
     table.appendChild(tr);
     article.appendChild(table);
     
-    //console.log(photos[post.uuid], post.uuid);
     if (photos[post.uuid] != undefined) {
         var img = document.createElement("img");
         var path = photos[post.uuid];
@@ -47,6 +46,16 @@ function postToArticle(p) {
         img.src = dataURL;
         img.className = "post-image";
         article.appendChild(img);
+        img.onclick = function(event) {
+            var gui = require("nw.gui");
+            var newWindow = gui.Window.get(
+                window.open(this.src)  
+            );
+            newWindow.title = "Preview";
+            newWindow.show();
+            newWindow.focus();
+            newWindow.resizeTo(this.clientWidth, this.clientHeight);
+        };
     }
     
     var postContent = document.createElement("div");

@@ -8,50 +8,89 @@ var settings = undefined;
 var pathToDropboxFolder = undefined;
 var entriesPath = undefined;
 var photosPath = undefined;
-//var pathForSettings = process.execPath.replace(/[a-zA-Z0-9_ -]+.exe/, "settings.json");
-var pathForSettings = "settings.json";
+var pathToDropboxFolder = undefined;
 
-function pathToDropboxCheck() {
-    console.log("Path to Dropbox folder: "+pathToDropboxFolder);
-    if (!fs.existsSync(pathToDropboxFolder) || !fs.existsSync(entriesPath) || !fs.existsSync(photosPath)) {
-        alert("Incorrect Day One folder! Please choose correct folder.");
-        document.getElementById("settings-path-to-dropbox-file-dialog").click();
+function checkPath(path) {
+    console.log("Path to Day One folder: "+path);
+    if (!fs.existsSync(path) || !fs.existsSync(path+"/entries") || !fs.existsSync(path+"/photos")) {
         return false;
     }
     return true;
 };
 
+function pathToDropboxCheck() {
+    return checkPath(pathToDropboxFolder);
+};
+
 function loadSettings() {
-    /*console.log("Path to settings:", pathForSettings);
-    if (!fs.existsSync(pathForSettings)) {
-        fs.writeFileSync(pathForSettings, JSON.stringify({"path":"."}));
-    }
-    
-    var settingsJSON = fs.readFileSync(pathForSettings, { "encoding": "utf-8" });
-    settings = JSON.parse(settingsJSON);*/
-    
     var settingsJSON = localStorage["settings"];
     try {
         settings = JSON.parse(settingsJSON);
     } catch(e) {
-        settings = {"path":"."};
+        settings = {
+            "path":".",
+            "folders": []
+        };
         localStorage["settings"] = JSON.stringify(settings);
     }
     
-    pathToDropboxFolder = settings["path"];
+    if (settings["folders"] == undefined) {
+        settings["folders"] = [];
+    }
     
+    pathToDropboxFolder = settings["path"];
     pathToDropboxFolder += "/Journal.dayone";
     
     entriesPath = pathToDropboxFolder + "/entries";
     photosPath = pathToDropboxFolder+"/photos";
 };
 
+function checkFolders() {
+    var folders = [];
+    for (var f in settings["folders"]) {
+        if (checkPath(settings["folders"][f] + "/Journal.dayone")) {
+            console.log("Checked :"+settings["folders"][f]);
+            folders.push(settings["folders"][f]);
+        }
+    }
+    if (folders.indexOf(settings["path"]) < 0) {
+        folders.push(settings["path"]);
+    }
+    settings["folders"] = folders;
+    saveSettings();
+};
+
+function usePath(path) {
+    if (!fs.existsSync(path)) {
+        return false;
+    }
+    
+    pathToDropboxFolder = path + "/Journal.dayone";
+    if (!fs.existsSync(pathToDropboxFolder)) {
+        fs.mkdirSync(pathToDropboxFolder);
+    }
+    
+    if (!checkPath(pathToDropboxFolder)) {
+        entriesPath = pathToDropboxFolder + "/entries";
+        if (!fs.existsSync(entriesPath)) {
+            fs.mkdirSync(entriesPath);
+        }
+        
+        photosPath = pathToDropboxFolder + "/photos";
+        if (!fs.existsSync(photosPath)) {
+            fs.mkdirSync(photosPath);
+        }
+    }
+    settings["path"] = path;
+    saveSettings();
+    initFunction();
+    return true;
+};
+
 function saveSettings() {
-    //fs.writeFileSync(pathForSettings, JSON.stringify(settings));
     localStorage.setItem("settings", JSON.stringify(settings));
     console.log('Settings saved');
     loadSettings();
-    pathToDropboxCheck();
 };
 
 function Post() {

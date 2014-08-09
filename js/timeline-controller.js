@@ -8,6 +8,24 @@ function Timeline(post, tags) {
     } else {
         timelinePosts = posts;
     }
+    
+    var isEmpty = (timelinePosts.length == 0);
+    if (isEmpty) {
+        document.getElementById("empty-timeline").style.display = "block";
+        document.getElementById("timeline-posts").style.visibility = "hidden";
+        var timelinePaginationBlocks = document.getElementsByClassName("timeline-pagination");
+        for (var i = 0; i < timelinePaginationBlocks.length; i++) {
+            timelinePaginationBlocks[i].style.visibility = "hidden";
+        }
+    } else {
+        document.getElementById("empty-timeline").style.display = "none";
+        document.getElementById("timeline-posts").style.visibility = "visible";
+        var timelinePaginationBlocks = document.getElementsByClassName("timeline-pagination");
+        for (var i = 0; i < timelinePaginationBlocks.length; i++) {
+            timelinePaginationBlocks[i].style.visibility = "visible";
+        }
+    }
+    
     this.firstIndex = timelinePosts.indexOf(post);
     if (this.firstIndex == -1) {
         this.firstIndex = 0;

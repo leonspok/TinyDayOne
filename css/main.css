@@ -9,8 +9,8 @@
 }
 
 ::-webkit-scrollbar-thumb {
-	background: rgba(0,0,0,0.3);
-    border: 1px solid white;
+	background: rgb(142, 142, 142);
+    border: 1px solid rgb(238, 238, 238);
     border-radius: 3px; 
 }
 
@@ -21,11 +21,11 @@
 html, body {
 	margin: 0;
 	padding: 0;
+    height: 100%;
 }
 
 body {
-	width: 600px;
-	height: 700px;
+	height: 100%;
 	background: #33393E;
 	font-family: "Helvetica Neue", Helvetica, Arial;
 	font-size: 12pt;
@@ -41,7 +41,7 @@ a {
 	color: #BBBBBB;
 	font-size: 50px;
 	width: 70px;
-	height: 700px;
+	height: 100%;
 	padding: 0;
 	padding-top: 0em;
 	margin: 0;
@@ -61,8 +61,8 @@ a {
 	position: absolute;
 	left: 70px;
 	top: 0px;
-	width: 490px;
-	height: 660px;
+	bottom: 0px;
+	right: 0px;
 	padding: 20px;
 	overflow-y: auto;
 	overflow-x: hidden;
@@ -74,6 +74,9 @@ a {
 .content-item {
 	display: none;
 	-webkit-transition: all 0.3s ease;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 800px;
 }
 
 .content-item.visible {
@@ -82,11 +85,12 @@ a {
 
 #post-editor {
 	font-size: 0.8em;
+    height: 100%;
+    position: relative;
 }
 
 #post-editor-date {
 	border: none;
-	width: 262px;
 	margin-right: 18px;
 }
 
@@ -98,6 +102,10 @@ a {
 	color: #eeeeee;
 	border: none;
 	margin-left: 20px;
+    display: block;
+    position: absolute;
+    top: 20px;
+    right: 20px;
 }
 
 #post-save-button:hover {
@@ -105,7 +113,7 @@ a {
 }
 
 #post-editor-tags {
-	margin-top: 10px;
+	margin-top: 20px;
 }
 
 #post-editor-tags span {
@@ -130,6 +138,12 @@ a {
 	border: none;
 	resize: none;
     margin-bottom: 20px;
+}
+
+#post-editor-image-area-wrapper {
+    position: absolute;
+    bottom: 20px;
+    left: 0px;
 }
 
 #post-editor-image-area {
@@ -180,6 +194,13 @@ a {
     font-family: "Open Sans";
 }
 
+#timeline #empty-timeline {
+    font-size: 25pt;
+    text-transform: uppercase;
+    font-weight: 100;
+    width: 100%;
+}
+
 #timeline .timeline-pagination {
     text-align: center;
 }
@@ -218,11 +239,12 @@ a {
 
 #timeline-posts .post-image {
     width: auto;
-    max-width: 490px;
+    max-width: 100%;
     border-radius: 5px;
     display: block;
     margin-left: auto;
     margin-right: auto;
+    cursor: pointer;
 }
 
 #timeline-posts p {
@@ -264,6 +286,6 @@ a {
 }
 
 
-#settings-path-to-dropbox {
+#settings-path-to-dayone {
     width: 260px;
 }

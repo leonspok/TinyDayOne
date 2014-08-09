@@ -45,15 +45,18 @@
 					<input type="text" id="post-editor-new-tag" placeholder="tag">
 				</div>
 				<textarea id="post-editor-text" placeholder="Write your post here"></textarea>
-                <div id="post-editor-image-area">
-                    <div id="remove-image-button">
-                        <i class="fa fa-times"></i>
-                    </div>
+                <div id="post-editor-image-area-wrapper">
+                    <div id="post-editor-image-area">
+                        <div id="remove-image-button">
+                            <i class="fa fa-times"></i>
+                        </div>
                     <input type="file" id="post-editor-image-file-dialog" style="display: none;" />
+                </div>
                 </div>
 			</div>
 			
 			<div class="content-item" id="timeline">
+                <h1 id="empty-timeline">NO POSTS YET</h1>
 				<div class="timeline-pagination">
 					<a class="prev-button">&larr;</a>
 					<span class="current-posts"></span>
@@ -73,11 +76,9 @@
 			
 			<div class="content-item visible" id="settings">
                 <h1>SETTINGS</h1>
-                <p><span>Path to DayOne folder in dropbox: </span></p>
-                <p><input id="settings-path-to-dropbox-file-dialog" type="file" nwdirectory /></p>
-                <br>
-                <br>
-				<p>Did you expect more settings? Oohh...</p>
+                <p><span>Path to DayOne folder: </span></p>
+                <input id="settings-path-to-dayone-file-dialog" type="file" nwdirectory style="display: none;"/>
+                <p><select id="settings-path-select"></select></p>
 			</div>
 		</div>
 	</body>

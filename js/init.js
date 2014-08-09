@@ -1,30 +1,46 @@
-var editor;
+var editor = undefined;
+
+var settingsWatcher = undefined;
+var postsWatcher = undefined;
 
 var initFunction = function() {
-    var dropboxPathChooser = document.getElementById("settings-path-to-dropbox-file-dialog");
+    clearInterval(settingsWatcher);
+    clearInterval(postsWatcher);
+    
+    var dropboxPathChooser = document.getElementById("settings-path-to-dayone-file-dialog");
     dropboxPathChooser.onchange = function(event) {
         console.log("Value: "+this.value);
-        settings["path"] = this.value;
-        saveSettings();
-        initFunction();
+        var used = usePath(this.value);
+        if (used && settings["folders"].indexOf(this.value) < 0) {
+            settings["folders"].push(this.value);
+            saveSettings();
+        }
     };    
     loadSettings();
+    navigator.showViewForState(4, new Settings());
     console.log("Settings loaded. Check path...");
     if (!pathToDropboxCheck()) {
+        var folders = settings["folders"];
+        for (var i = 0; i < folders.length; i++) {
+            if (checkPath(folders[i])) {
+                usePath(folders[i]);
+                break;
+            }
+        }
         return;
     }
     console.log("Path is correct. Loading posts...");
     loadPosts();
     console.log("Posts loaded.");
-    setInterval(function() {
+    settingsWatcher = setInterval(function() {
         var oldPath = settings["path"];
         loadSettings();
         if (oldPath.valueOf() != settings["path"].valueOf()) {
-            loadPosts();
+            initFunction();
         }
     }, 1000);
     
-    setInterval(function() {
+    postsWatcher = setInterval(function() {
         loadPosts();
     }, 60000); 
     
@@ -52,12 +68,14 @@ var initFunction = function() {
         navigator.showViewForState(4, new Settings());
     };
     
-    var options = {
-        "element": document.getElementById("post-editor-text"),
-        "status": false
-    };
-    editor = new Editor(options);
-    editor.render();
+    if (editor == undefined) {
+        var options = {
+            "element": document.getElementById("post-editor-text"),
+            "status": false
+        };
+        editor = new Editor(options);
+        editor.render();
+    }
 };
 
 window.onload = function() {
