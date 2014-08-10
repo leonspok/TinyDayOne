@@ -14,7 +14,7 @@
     "icon": "icon.png",
     "position": "center",
     "width": 600,
-    "min_width": 560,
+    "min_width": 600,
     "height": 700,
     "min_height": 560,
     "resizable": true 
