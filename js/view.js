@@ -48,13 +48,22 @@ function postToArticle(p) {
         article.appendChild(img);
         img.onclick = function(event) {
             var gui = require("nw.gui");
-            var newWindow = gui.Window.get(
-                window.open(this.src)  
-            );
-            newWindow.title = "Preview";
-            newWindow.show();
-            newWindow.focus();
-            newWindow.resizeTo(this.clientWidth, this.clientHeight);
+            var image = new Image();
+            image.src = this.src;
+            image.onload = function() {
+                var imgWidth = this.width;
+                var imgHeight = this.height;
+                var url = "preview.html?src="+encodeURIComponent(this.src);
+                var newWindow = gui.Window.get(
+                    window.open(url)  
+                );                
+                newWindow.on('loaded', function() {
+                    newWindow.title = "Preview";
+                    newWindow.maximize();
+                    newWindow.show();
+                    newWindow.focus();
+                });
+            };
         };
     }
     

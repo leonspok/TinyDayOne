@@ -42,6 +42,7 @@ function Timeline(post, tags) {
         }
         var post = timelinePosts[self.lastIndex+1];
         navigator.showViewForState(2, new Timeline(post, self.tags));
+        document.getElementById("content").scrollTop = 0;
     };
     
     var showPreviousPage = function() {
@@ -54,6 +55,7 @@ function Timeline(post, tags) {
         }
         var post = timelinePosts[newIndex];
         navigator.showViewForState(2, new Timeline(post, self.tags));
+        document.getElementById("content").scrollTop = 0;
     };
     
     if (self.firstIndex == 0) {

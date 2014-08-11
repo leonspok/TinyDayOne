@@ -297,9 +297,9 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
   border: 1px solid #C0C0C0;
   padding: 10px;
   position: absolute;
-  top: 146px;
+  top: 136px;
   left: 0px;
-  right: 20px;
+  right: 0px;
   bottom: 100px;
   height: auto;
 }
