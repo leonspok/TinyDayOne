@@ -53,13 +53,32 @@ function postToArticle(p) {
             image.onload = function() {
                 var imgWidth = this.width;
                 var imgHeight = this.height;
-                var url = "preview.html?src="+encodeURIComponent(this.src);
-                var newWindow = gui.Window.get(
-                    window.open(url)  
-                );                
+                
+                var width = 0;
+                var height = 0;
+                
+                if (imgWidth > imgHeight) {
+                    width = Math.min(window.screen.availWidth, imgWidth);
+                    height = imgHeight*(width/imgWidth);
+                    height = Math.min(height, window.screen.availHeight);
+                    width = height*imgWidth/imgHeight;
+                } else {
+                    height = Math.min(window.screen.availHeight, imgHeight);
+                    width = imgWidth*(height/imgHeight);
+                    width = Math.min(width, window.screen.availWidth);
+                    height = width*(imgHeight/imgWidth);
+                }
+                
+                var url = "preview.html?src="+encodeURIComponent(photos[post.uuid]);
+                var newWindow = gui.Window.open(url, {
+                    "position": "center",
+                    "width": parseInt(width, 10),
+                    "height": parseInt(height, 10),
+                    "frame": true,
+                    "toolbar": false
+                });
                 newWindow.on('loaded', function() {
                     newWindow.title = "Preview";
-                    newWindow.maximize();
                     newWindow.show();
                     newWindow.focus();
                 });

@@ -3,7 +3,7 @@
   "main": "index.html",
   "description": "Tiny Day One client app.",
   "author": "Igor Savelev <igor9774@gmail.com>",
-  "version": "0.1.6",
+  "version": "0.1.6a",
   "repository": {
     "type": "git",
     "url": "git://github.com/leonspok/TinyDayOne-Windows.git"

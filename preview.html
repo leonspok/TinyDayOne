@@ -4,17 +4,14 @@
         <meta charset="utf-8" />
         <title>Preview</title>
         <style>
-            body {
-                background: RGB(60, 63, 65);
+            html, body {
+                margin: 0;
+                padding: 0;
             }
             
-            #wrapper {
-                display: block;
-                position: absolute;
-                top: 0px;
-                bottom: 0px;
-                left: 0px;
-                right: 0px;
+            body {
+                height: 100%;
+                background: RGB(60, 63, 65);
             }
             
             #preview-image {
@@ -22,7 +19,6 @@
                 max-height: 100%;
                 margin-left: auto;
                 margin-right: auto;
-                box-shadow: 0 0 10px black;
             }
         </style>
         <script>
@@ -39,7 +35,7 @@
             };
         </script>
     </head>
-    <body>
+    <body style="-webkit-app-region: drag">
         <div id="wrapper">
             <img id="preview-image">
         </div>
