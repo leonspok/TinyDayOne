@@ -104,8 +104,7 @@ function PostEditor(post) {
     this.imageExtension = undefined;
     this.imageChanged = false;
     
-    this.removeImageButton.click();
-    console.log("clicked");
+	this.removeImageButton.click();
     this.imageChanged = false;
     if (this.currentPost.uuid && photos[this.currentPost.uuid]) {
         this.loadImageFromFS(photos[this.currentPost.uuid]);
@@ -174,7 +173,8 @@ function PostEditor(post) {
         
         if (self.imageChanged) {
             if (photos[self.currentPost.uuid] != undefined) {
-                fs.unlink(photos[self.currentPost.uuid]);    
+                fs.unlink(photos[self.currentPost.uuid]);
+                photos[self.currentPost.uuid] = undefined;
             }
             if (self.imageDataURL != undefined) {
                var base64 = self.imageDataURL.split(",")[1]; fs.writeFile(photosPath+"/"+self.currentPost.uuid+"."+self.imageExtension, base64, 'base64', function(err) {

@@ -154,9 +154,9 @@ a {
     border-radius: 15px;
     overflow: hidden;
     
-    background: url('../img/image-icon.svg') no-repeat;
+    background: url('../img/image-icon.png') no-repeat;
     background-position: center center;
-    background-size: 50% 50%;
+    background-size: 40% 50%;
     cursor: pointer;
 }
 
