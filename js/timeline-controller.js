@@ -41,7 +41,8 @@ function Timeline(post, tags) {
             return;
         }
         var post = timelinePosts[self.lastIndex+1];
-        navigator.showViewForState(2, new Timeline(post, self.tags));
+        navigationController
+.showViewForState(2, new Timeline(post, self.tags));
         document.getElementById("content").scrollTop = 0;
     };
     
@@ -54,7 +55,8 @@ function Timeline(post, tags) {
             newIndex = 0;
         }
         var post = timelinePosts[newIndex];
-        navigator.showViewForState(2, new Timeline(post, self.tags));
+        navigationController
+.showViewForState(2, new Timeline(post, self.tags));
         document.getElementById("content").scrollTop = 0;
     };
     

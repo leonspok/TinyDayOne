@@ -1,4 +1,4 @@
-var navigator = {
+var navigationController = {
     state: 2,
     controller: undefined,
     showViewForState: function(state, controller) {

@@ -186,6 +186,7 @@ function PostEditor(post) {
         }
         
         self.currentPost.saveToFile();
-        navigator.showViewForState(2, new Timeline(self.currentPost));
+        navigationController
+.showViewForState(2, new Timeline(self.currentPost));
     };
 };

@@ -17,7 +17,8 @@ var initFunction = function() {
         }
     };    
     loadSettings();
-    navigator.showViewForState(4, new Settings());
+    navigationController
+.showViewForState(4, new Settings());
     console.log("Settings loaded. Check path...");
     if (!pathToDropboxCheck()) {
         var folders = settings["folders"];
@@ -44,7 +45,8 @@ var initFunction = function() {
         loadPosts();
     }, 60000); 
     
-    navigator.showViewForState(2, new Timeline());
+    navigationController
+.showViewForState(2, new Timeline());
     
     document.getElementsByTagName("body")[0].ondragover = function(event) {
         event.stopPropagation();
@@ -57,15 +59,18 @@ var initFunction = function() {
     };
     
     document.getElementById("write-post-button").onclick = function() {
-        navigator.showViewForState(1, new PostEditor());
+        navigationController
+.showViewForState(1, new PostEditor());
     };
     
     document.getElementById("timeline-button").onclick = function() {
-        navigator.showViewForState(2, new Timeline());
+        navigationController
+.showViewForState(2, new Timeline());
     };
     
     document.getElementById("settings-button").onclick = function() {
-        navigator.showViewForState(4, new Settings());
+        navigationController
+.showViewForState(4, new Settings());
     };
     
     if (editor == undefined) {

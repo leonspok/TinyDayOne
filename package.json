@@ -1,29 +1,71 @@
 {
-  "name": "TinyDayOne",
-  "main": "index.html",
-  "description": "Tiny Day One client app.",
-  "author": "Igor Savelev <igor9774@gmail.com>",
-  "version": "0.1.7",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/leonspok/TinyDayOne-Windows.git"
-  },
-  "window": {
-    "title": "TinyDayOne",
-    "toolbar": false,
-    "icon": "icon.png",
-    "position": "center",
-    "width": 600,
-    "min_width": 600,
-    "height": 700,
-    "min_height": 560,
-    "resizable": true 
-  },
-  "webkit": {
-    "page-cache": false
-  },
-  "dependencies": {
-    "markdown": "~0.5.0",
-    "plist": "~0.4.3"
-  }
+    "app_name": "TinyDayOne", 
+    "nodejs": true, 
+    "additional_trust_anchors": [], 
+    "inject-js-end": "", 
+    "node-remote": "", 
+    "keywords": [], 
+    "author": "Igor Savelev <igor9774@gmail.com>", 
+    "user-agent": "", 
+    "window": {
+        "fullscreen": false, 
+        "exe_icon": "", 
+        "kiosk_emulation": false, 
+        "resizable": true, 
+        "title": "TinyDayOne", 
+        "always-on-top": false, 
+        "kiosk": false, 
+        "frame": true, 
+        "show": true, 
+        "visible": true, 
+        "height": 700, 
+        "min_height": 560, 
+        "width": 600, 
+        "as_desktop": false, 
+        "min_width": 600, 
+        "position": "center", 
+        "show_in_taskbar": true, 
+        "mac_icon": "", 
+        "transparent": false, 
+        "toolbar": false, 
+        "icon": "icon.png"
+    }, 
+    "version": "0.1.8", 
+    "inject-js-start": "", 
+    "main": "index.html", 
+    "chromium-args": "", 
+    "webexe_settings": {
+        "linux-x32": true, 
+        "export_dir": "/Users/igorsavelev/Desktop/TinyDayOne", 
+        "windows-x64": true, 
+        "uncompressed_folder": false, 
+        "download_dir": "/Users/igorsavelev/Library/Application Support/Web2Executable/files/downloads", 
+        "nw_compression_level": 0, 
+        "mac-x32": true, 
+        "custom_script": "", 
+        "windows-x32": true, 
+        "mac-x64": true, 
+        "nw_version": "0.12.3", 
+        "force_download": false, 
+        "linux-x64": true
+    }, 
+    "description": "Tiny Day One client app.", 
+    "repository": {
+        "url": "git://github.com/leonspok/TinyDayOne-Windows.git", 
+        "type": "git"
+    }, 
+    "dependencies": {
+        "markdown": "~0.5.0", 
+        "plist": "~0.4.3"
+    }, 
+    "webkit": {
+        "page-cache": false, 
+        "java": false, 
+        "plugin": false
+    }, 
+    "js-flags": "", 
+    "name": "TinyDayOne", 
+    "single-instance": true, 
+    "snapshot": "", 
+    "node-main": ""
 }

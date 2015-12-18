@@ -20,7 +20,8 @@ function postToArticle(p) {
     var edit = document.createElement("a");
     edit.className = "post-edit";
     edit.onclick = function(event) {
-        navigator.showViewForState(1, new PostEditor(post));
+        navigationController
+.showViewForState(1, new PostEditor(post));
     };
     edit.textContent = "edit";
     editTD.appendChild(edit);
@@ -110,7 +111,8 @@ function postToArticle(p) {
         span.className = "tag";
         span.textContent = post.tags[i];
         span.onclick = function(event) {
-            navigator.showViewForState(2, new Timeline(undefined, [this.textContent]));
+            navigationController
+.showViewForState(2, new Timeline(undefined, [this.textContent]));
         };
         tags.appendChild(span);
         //tagsSpans += "<span class='tag'>"+post.tags[i]+"</span>";

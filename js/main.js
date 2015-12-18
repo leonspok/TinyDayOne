@@ -244,11 +244,11 @@ function loadPosts() {
         }
     }
     
-    if (navigator.state == 2) {
-        if (navigator.controller) {
-            var p = (navigator.controller.firstIndex < posts.length)? posts[navigator.controller.firstIndex] : undefined;
-            var t = (navigator.controller.tags != undefined)? navigator.controller.tags : undefined;
-            navigator.showViewForState(2, new Timeline(p, t));
+    if (navigationController.state == 2) {
+        if (navigationController.controller) {
+            var p = (navigationController.controller.firstIndex < posts.length)? posts[navigationController.controller.firstIndex] : undefined;
+            var t = (navigationController.controller.tags != undefined)? navigationController.controller.tags : undefined;
+            navigationController.showViewForState(2, new Timeline(p, t));
         }
     }
 };
